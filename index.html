@@ -1,348 +1,950 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>三年級｜真分數與假分數 練習</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三年級｜真分數與假分數練習</title>
   <style>
-    :root{--bg:#f6f8fb;--card:#ffffff;--text:#222;--muted:#667085;--brand:#4f46e5;--good:#16a34a;--bad:#dc2626}
-    *{box-sizing:border-box}html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans TC",sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:980px;margin:24px auto;padding:16px}
-    .title{font-weight:800;margin:0 0 8px}
-    .sub{color:var(--muted);margin:0 0 18px}
-    .card{background:var(--card);border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:18px}
-    .btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:#eef2ff;color:#3730a3}
-    .btn[aria-current="true"],.btn.primary{background:var(--brand);color:#fff}
-    .btn.small{padding:6px 10px;font-weight:600}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .big{font-size:40px;font-weight:900}
-    .muted{color:var(--muted)}
-    .mono{font-variant-numeric:tabular-nums}
-    .frac{display:inline-grid;grid-template-rows:auto auto;line-height:1}
-    .frac .n{border-bottom:2px solid #111;text-align:center}
-    .frac .d{text-align:center}
-    .input{display:inline-flex;gap:6px;align-items:end}
-    input[type=number]{width:86px;padding:8px 10px;border:1px solid #e5e7eb;border-radius:10px;font-size:18px}
-    .progress{height:10px;border-radius:999px;background:#e5e7eb;overflow:hidden}
-    .progress>span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#4f46e5)}
-    .pill{padding:6px 10px;border-radius:999px;background:#f1f5f9;color:#0f172a;font-size:12px}
-    /* 視覺化區域 */
-    .viz{margin-top:16px;border-top:1px dashed #e5e7eb;padding-top:12px}
-    .viz-title{font-weight:800;margin-bottom:8px}
-    .viz-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-    .viz-circle{width:70px;height:70px;border-radius:50%;background:#4f46e5;box-shadow:inset 0 0 0 2px rgba(0,0,0,.12)}
-    .viz-item{text-align:center}
-    .tag{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:800}
-    .tag.good{background:#dcfce7;color:#166534}
-    .tag.warn{background:#fee2e2;color:#991b1b}
-    /* 題目說明 */
-    .hint{background:#f4f3ff;border:1px solid #e5e7ff;color:#3730a3;padding:10px 12px;border-radius:10px;margin:10px 0;font-weight:700}
-    /* 浮動紀錄鍵與面板 */
-    .fab{position:fixed;right:16px;bottom:16px;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:12px 16px;font-weight:800;box-shadow:0 8px 20px rgba(79,70,229,.35);z-index:50}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:40}
-    .modal .panel{width:min(92vw,480px);max-height:80vh;overflow:auto}
+    /* 基本排版與配色 */
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --gray-100: #f5f5f5;
+      --gray-200: #e5e5e5;
+      --gray-300: #d4d4d4;
+      --gray-700: #374151;
+      --gray-900: #111827;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-900);
+    }
+    .container {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0.5rem 0 0.25rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin: 1rem 0 0.5rem;
+    }
+    p {
+      margin: 0.25rem 0;
+      line-height: 1.5;
+    }
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .nav button {
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.375rem;
+      background: white;
+      color: var(--gray-900);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    .nav button:hover {
+      background: var(--gray-200);
+    }
+    .nav button.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+    }
+    .modebar {
+      margin-bottom: 1rem;
+    }
+    .question {
+      margin-bottom: 1rem;
+    }
+    .question h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .input-row input[type="number"], .input-row input[type="text"] {
+      width: 4rem;
+      padding: 0.4rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.375rem;
+      font-size: 1rem;
+    }
+    .input-row button.option {
+      padding: 0.4rem 0.7rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.375rem;
+      background: white;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .input-row button.option.selected {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      border: none;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    .feedback.success {
+      color: var(--success);
+    }
+    .feedback.error {
+      color: var(--error);
+    }
+    /* 視覺化條件格子 */
+    .bar-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin: 0.5rem 0;
+    }
+    .bar {
+      display: flex;
+      gap: 0.1rem;
+    }
+    .cell {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--gray-300);
+      border-radius: 0.125rem;
+      background: var(--gray-200);
+    }
+    .cell.filled {
+      background: var(--primary);
+    }
+    /* number line */
+    .numberline {
+      margin: 1rem 0;
+      width: 100%;
+      height: 60px;
+    }
+    /* 紀錄面板樣式 */
+    .record-panel {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 100;
+    }
+    .record-button {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .record-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .record-modal.active {
+      display: flex;
+    }
+    .record-modal .panel {
+      background: white;
+      max-width: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .record-modal .panel h3 {
+      margin-top: 0;
+    }
+    .record-modal table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+    .record-modal td, .record-modal th {
+      border: 1px solid var(--gray-300);
+      padding: 0.4rem;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.25rem; }
+      .nav button { font-size: 0.8rem; }
+      .input-row input[type="number"], .input-row input[type="text"] { width: 3rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1 class="title">三年級｜真分數與假分數 練習</h1>
-    <p class="sub">每天10題，題目不重複；先看懂真分數、假分數、帶分數，再開始闖關！</p>
-
-    <!-- 出題區（含視覺化） -->
-    <section class="card" id="trainer">
-      <div class="row" id="modebar"></div>
-      <div class="row" id="viewbar" style="margin:8px 0 4px"></div>
-      <div id="qbox"></div>
-
-      <!-- 內嵌視覺化：跟題目同步 -->
-      <div class="viz" id="viz">
-        <div class="viz-title">看圖就懂</div>
-        <div id="vizBadge" class="tag">—</div>
-        <div id="vizCircles" class="viz-row" style="margin-top:8px"></div>
-        <ul class="muted" style="margin:8px 0 0 18px">
-          <li>分母＝切幾塊（切法）／分子＝拿幾塊（份數）</li>
-          <li>分子 < 分母 → 真分數；分子 > 分母 → 假分數；分子＝分母 → 整數1</li>
-        </ul>
-      </div>
-
-      <div class="row" style="justify-content:space-between;margin-top:12px">
-        <div class="row">
-          <button class="btn small" id="rerollBtn">隨機一題</button>
-          <button class="btn small" id="skipBtn">跳過一題</button>
-          <span class="pill mono" id="seedInfo"></span>
-        </div>
-        <div style="flex:1;margin-left:16px">
-          <div class="progress"><span id="bar" style="width:0%"></span></div>
-          <div class="row" style="justify-content:space-between;margin-top:6px">
-            <span class="muted mono">第 <b id="idx">0</b> / <b id="total">10</b> 題</span>
-            <span class="muted mono">得分 <b id="score">0</b></span>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="container">
+    <h1>三年級｜真分數與假分數 練習</h1>
+    <p>每天 10 題，題目不重複；先看懂真分數、假分數、帶分數，再開始闖關！</p>
+    <div class="nav" id="nav"></div>
+    <div id="main"></div>
   </div>
-
-  <!-- 浮動按鈕：開啟今日學習紀錄 -->
-  <button class="fab" id="openLog">學習紀錄</button>
-  <div class="modal" id="logModal" aria-hidden="true">
-    <div class="panel card">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <h3 style="margin:0">今天的學習紀錄</h3>
-        <button class="btn small" id="closeLog">關閉</button>
-      </div>
-      <div class="mono muted" id="hist"></div>
+  <!-- 學習紀錄按鈕與彈窗 -->
+  <div class="record-panel">
+    <button class="record-button" id="recordBtn">📒</button>
+  </div>
+  <div class="record-modal" id="recordModal">
+    <div class="panel">
+      <h3>今天的練習紀錄</h3>
+      <div id="recordContent"></div>
+      <button class="btn" id="closeRecord">關閉</button>
     </div>
   </div>
-
   <script>
-    /******** 工具 ********/
-    function xmur3(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return ()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^h>>>16)>>>0;};}
-    function mulberry32(a){return function(){let t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;}}
-    function seededRand(seedStr){const seed=xmur3(seedStr)();return mulberry32(seed)}
-    function todaySeed(){const d=new Date();const y=d.getFullYear(),m=(d.getMonth()+1+"").padStart(2,'0'),day=(d.getDate()+"").padStart(2,'0');return `${y}${m}${day}`}
-
-    /******** 狀態 ********/
-    const MODES=[
-      {key:'judge',name:'判斷真／假分數'},
-      {key:'imp2mix',name:'假分數→帶分數'},
-      {key:'mix2imp',name:'帶分數→假分數'},
-      {key:'visual',name:'看圖寫分數'}
-    ];
-    const state={seed:todaySeed(),rng:null,count:10,maxDen:12,idx:0,score:0,used:new Set(),todays:[],modeSel:'judge',historyKey:'',mistakes:[],view:'practice',practiceHint:false};
-
-    /******** 基本計算 ********/
-    function pickInt(min,max){return Math.floor(state.rng()*(max-min+1))+min}
-    function genFraction({proper}){let d=pickInt(4,state.maxDen);let n;if(proper===true){n=pickInt(1,d-1)}else if(proper===false){n=pickInt(d,d*2)}else{n=pickInt(1,d*2-1);if(n===d)n++}return [n,d]}
-    function toMixed(n,d){const whole=Math.floor(n/d);return {whole,n:n%d,d}}
-    function makeFracSpan(n,d){return `<span class="frac"><span class="n">${n}</span><span class="d">${d}</span></span>`}
-    function drawPieSVG(parts,filled){const R=36,cx=40,cy=40,ang=2*Math.PI/parts;let paths='';for(let i=0;i<filled;i++){const a0=-Math.PI/2+i*ang,a1=a0+ang,x1=cx+R*Math.cos(a0),y1=cy+R*Math.sin(a0),x2=cx+R*Math.cos(a1),y2=cy+R*Math.sin(a1);paths+=`<path d="M ${cx} ${cy} L ${x1} ${y1} A ${R} ${R} 0 0 1 ${x2} ${y2} Z" fill="#60a5fa"></path>`}return `<svg viewBox="0 0 80 80" width="80" height="80"><circle cx="40" cy="40" r="36" fill="#e5e7eb"></circle>${paths}</svg>`}
-
-    /******** 視覺化（內嵌） ********/
-    function renderInlineVizByFrac(n,d,showAnswer){
-      const badge=document.getElementById('vizBadge');
-      const box=document.getElementById('vizCircles');
-      box.innerHTML='';
-      const {whole,n:rem}=toMixed(n,d);
-      // 練習模式預設不透露答案
-      if(!showAnswer){
-        badge.textContent='需要提示？';
-        badge.className='tag';
-        // 只畫圖，不顯示數字
-        for(let i=0;i<whole;i++){
-          const item=document.createElement('div');item.className='viz-item';item.innerHTML=`<div class="viz-circle"></div>`;box.appendChild(item);
+  (function() {
+    // 簡易種子亂數生成器 (mulberry32)
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      }
+    }
+    function getTodayStr() {
+      const d = new Date();
+      const yyyy = d.getFullYear().toString();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return yyyy + mm + dd;
+    }
+    // 狀態
+    const state = {
+      mode: 'warmup',
+      idx: 0,
+      score: 0,
+      questions: [],
+      rng: null,
+      seed: 0,
+      attempt: 1,
+      logKey: '',
+      sessionDetails: []
+    };
+    // 讀取當天練習次數
+    function loadAttempt() {
+      const key = 'frac-attempt-' + getTodayStr();
+      let num = parseInt(localStorage.getItem(key) || '0', 10);
+      return num;
+    }
+    function saveAttempt(num) {
+      const key = 'frac-attempt-' + getTodayStr();
+      localStorage.setItem(key, String(num));
+    }
+    // 儲存完成的練習紀錄
+    function saveSessionRecord(record) {
+      const logKey = 'frac-log-' + getTodayStr();
+      let list = [];
+      try { list = JSON.parse(localStorage.getItem(logKey) || '[]'); } catch(err) {}
+      list.push(record);
+      localStorage.setItem(logKey, JSON.stringify(list));
+    }
+    // 取得紀錄
+    function getSessionRecords() {
+      const logKey = 'frac-log-' + getTodayStr();
+      try { return JSON.parse(localStorage.getItem(logKey) || '[]'); } catch(err) { return []; }
+    }
+    // 產生基礎題庫
+    function generateBasicQuestions(count) {
+      const qs = [];
+      const categories = ['judge','imp2mix','mix2imp'];
+      for (let i=0; i<count; i++) {
+        const type = categories[i % categories.length];
+        if (type === 'judge') {
+          // 分子1-15，分母6-12
+          let d = Math.floor(state.rng()*7) + 6; // 6-12
+          let n = Math.floor(state.rng()*20) + 1; // 1-20
+          // avoid n and d multiples for too trivial; but allow mixture
+          qs.push({type:'judge', n: n, d: d, correct: (n < d) ? 'proper' : (n === d ? 'equal' : 'improper')});
+        } else if (type === 'imp2mix') {
+          let d = Math.floor(state.rng()*7) + 4; // 4-10
+          let whole = Math.floor(state.rng()*4) + 2; // 2-5
+          let rem = Math.floor(state.rng()*d) + 1; // 1-d
+          let n = whole * d + rem;
+          qs.push({type:'imp2mix', n: n, d: d, whole: whole, rem: rem});
+        } else if (type === 'mix2imp') {
+          let d = Math.floor(state.rng()*7) + 3; // 3-9
+          let whole = Math.floor(state.rng()*4) + 2; // 2-5
+          let rem = Math.floor(state.rng()*(d-1)) + 1; // 1 to d-1
+          let n = whole * d + rem;
+          qs.push({type:'mix2imp', whole: whole, nPart: rem, d: d, n: n});
         }
-        if(rem>0||whole===0){
-          const item=document.createElement('div');item.className='viz-item';item.innerHTML=`<div>${drawPieSVG(d,rem||n)}</div>`;box.appendChild(item);
+      }
+      // 洗牌
+      for (let i=qs.length-1; i>0; i--) {
+        const j = Math.floor(state.rng() * (i+1));
+        [qs[i], qs[j]] = [qs[j], qs[i]];
+      }
+      return qs;
+    }
+    // 產生進階題庫
+    function generateAdvancedQuestions(count) {
+      const qs = [];
+      const categories = ['visualMulti','compare','numberLine'];
+      for (let i=0; i<count; i++) {
+        const type = categories[i % categories.length];
+        if (type === 'visualMulti') {
+          // 多條分數長條顯示，分母5-12；分子 1 - denom*3
+          let d = Math.floor(state.rng()*8) + 5; // 5-12
+          let max = d * (Math.floor(state.rng()*2)+2); // 2或3個長條
+          let n = Math.floor(state.rng()*max) + 1;
+          // 確保不為0
+          qs.push({type:'visualMulti', n: n, d: d});
+        } else if (type === 'compare') {
+          let d1 = Math.floor(state.rng()*9) + 3; // 3-11
+          let d2 = Math.floor(state.rng()*9) + 3;
+          let n1 = Math.floor(state.rng()*d1*2) + 1;
+          let n2 = Math.floor(state.rng()*d2*2) + 1;
+          // avoid trivial equal but may appear seldom; we allow equals for challenge
+          // Determine correct
+          let v1 = n1 / d1;
+          let v2 = n2 / d2;
+          let sign;
+          if (Math.abs(v1 - v2) < 1e-9) sign = '=';
+          else sign = v1 > v2 ? '>' : '<';
+          qs.push({type:'compare', n1: n1, d1: d1, n2: n2, d2: d2, correct: sign});
+        } else if (type === 'numberLine') {
+          // number line from 0 to units (1 or 2 or 3). Denominator2-6
+          let units = Math.floor(state.rng()*2) + 1; // 1-2
+          let d = Math.floor(state.rng()*5) + 2; // 2-6
+          let totalTicks = d * units + 1;
+          let idx = Math.floor(state.rng()*(totalTicks-2)) + 1; // not first or last
+          // compute improper fraction representation numerator
+          let n = idx;
+          let correct = {n:n, d:d};
+          qs.push({type:'numberLine', units: units, d: d, idx: idx, correct: correct});
         }
-        return;
       }
-      // 教學或開啟提示 → 顯示完整解釋
-      if(n<d){badge.textContent='真分數';badge.className='tag good'}
-      else if(n===d){badge.textContent='整數 1';badge.className='tag good'}
-      else{badge.textContent=`假分數（= ${whole} 又 ${rem}/${d}）`;badge.className='tag warn'}
-      if(whole===0 && rem===0){
-        const item=document.createElement('div');item.className='viz-item';item.innerHTML=`<div class="viz-circle" style="background:#e5e7eb"></div><div class="muted" style="text-align:center">0</div>`;box.appendChild(item);return;
+      // shuffle
+      for (let i=qs.length-1; i>0; i--) {
+        const j = Math.floor(state.rng() * (i+1));
+        [qs[i], qs[j]] = [qs[j], qs[i]];
       }
-      for(let i=0;i<whole;i++){
-        const item=document.createElement('div');item.className='viz-item';item.innerHTML=`<div class="viz-circle"></div><div class="muted" style="text-align:center">完整</div>`;box.appendChild(item);
-      }
-      if(rem>0){
-        const item=document.createElement('div');item.className='viz-item';item.innerHTML=`<div>${drawPieSVG(d,rem)}</div><div class="muted" style="text-align:center">${rem}/${d}</div>`;box.appendChild(item);
-      }
+      return qs;
     }
-
-    /******** 題庫 ********/
-    function genQByType(m){
-      if(m==='judge'){const proper=state.rng()>0.5;const [n,d]=genFraction({proper});return {q:{type:'judge',n,d,proper},key:`J:${n}/${d}`}}
-      if(m==='imp2mix'){const [n,d]=genFraction({proper:false});return {q:{type:'imp2mix',n,d},key:`I2M:${n}/${d}`}}
-      if(m==='mix2imp'){const d=pickInt(4,state.maxDen),whole=pickInt(1,3),n=pickInt(1,d-1);return {q:{type:'mix2imp',whole,n,d},key:`M2I:${whole}|${n}/${d}`}}
-      if(m==='visual'){const d=[3,4,5,6,8,10,12][pickInt(0,6)],n=pickInt(1,d-1);return {q:{type:'visual',n,d},key:`V:${n}/${d}`}}
+    // 渲染導航按鈕
+    function renderNav() {
+      const nav = document.getElementById('nav');
+      nav.innerHTML = '';
+      const modes = [
+        {id:'warmup', label:'暖身教學'},
+        {id:'basic', label:'基本練習'},
+        {id:'advanced', label:'進階練習'},
+      ];
+      modes.forEach(m => {
+        const btn = document.createElement('button');
+        btn.textContent = m.label;
+        btn.dataset.mode = m.id;
+        if (state.mode === m.id) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+          if (m.id === 'warmup') {
+            state.mode = 'warmup';
+            renderNav();
+            renderWarmup();
+          } else if (m.id === 'basic') {
+            state.mode = 'basic';
+            initPractice('basic');
+          } else if (m.id === 'advanced') {
+            state.mode = 'advanced';
+            initPractice('advanced');
+          }
+        });
+        nav.appendChild(btn);
+      });
     }
-    function buildDayQuestions(){const modes=['judge','imp2mix','mix2imp','visual'];while(state.todays.length<state.count){const m=modes[pickInt(0,modes.length-1)];const {q,key}=genQByType(m);if(!state.used.has(key)){state.used.add(key);state.todays.push(q)}}}
-
-    /******** 介面 ********/
-    function renderHint(q){
-      const hints={
-        judge:'📘 題目說明：請從下面選擇「真分數」或「假分數」。',
-        imp2mix:'📘 題目說明：請輸入「整數、分子、分母」，再按送出。',
-        mix2imp:'📘 題目說明：請輸入「新的分子、分母」，再按送出。',
-        visual:(d)=>`📘 題目說明：請看圖輸入<b>藍色有幾片</b>作為「分子」，分母已固定為 <b>${d}</b>；再選擇真分數或假分數，按送出。`
-      };
-      if(q.type==='visual') return `<div class="hint">${hints.visual(q.d)}</div>`
-      return `<div class="hint">${hints[q.type]}</div>`
-    }
-    function renderModebar(){const bar=document.getElementById('modebar');bar.innerHTML='';MODES.forEach(m=>{const b=document.createElement('button');b.className='btn';b.textContent=m.name;b.setAttribute('aria-current',m.key===state.modeSel);b.onclick=()=>{switchMode(m.key)};bar.appendChild(b)})}
-    function renderViewbar(){const vb=document.getElementById('viewbar');vb.innerHTML='';[['practice','開始練習'],['teach','暖身教學']].forEach(([key,label])=>{const b=document.createElement('button');b.className='btn small';b.textContent=label;b.setAttribute('aria-current',state.view===key);b.onclick=()=>{state.view=key;state.practiceHint=false; if(key==='teach') renderTeach(); else renderCurrent();};vb.appendChild(b)})}
-
-    function renderCurrent(){ if(state.view==='teach'){renderTeach(); return;} 
-      const q=state.todays[state.idx];
-      const box=document.getElementById('qbox');
-      if(!q){box.innerHTML='<p class="big">今天完成啦 🎉</p>';return}
-      let html=renderHint(q);
-      // 題後即時回饋
-      html += '<div id="feedback" class="pill" style="display:none;margin-bottom:8px"></div>';
-      if(q.type==='judge'){
-        html+=`<div class="big">判斷：${makeFracSpan(q.n,q.d)}</div>`;
-        html+=`<div class="row"><button class="btn primary" id="btnProper">真分數</button><button class="btn" id="btnImproper">假分數</button></div>`
-      }
-      if(q.type==='imp2mix'){
-        html+=`<div class="big">把 ${makeFracSpan(q.n,q.d)} 變成帶分數</div>`;
-        html+=`<div class="input" style="margin-top:8px"><label>整數 <input type="number" id="W"/></label><span>${makeFracSpan('<input id="N" type="number" style="width:72px">','<input id="D" type="number" style="width:72px">')}</span></div><p class="muted">提示：做 ${q.n} ÷ ${q.d}，商=整數，餘數=新的分子；分母不變。</p>`
-      }
-      if(q.type==='mix2imp'){
-        html+=`<div class="big">把 <b>${q.whole}</b> ${makeFracSpan(q.n,q.d)} 變成假分數</div>`;
-        html+=`<div class="input" style="margin-top:8px">${makeFracSpan('<input id="N" type="number" style="width:88px">','<input id="D" type="number" style="width:88px">')}</div><p class="muted">提示：先算 ${q.whole}×${q.d}+${q.n} 作為新的分子，分母不變。</p>`
-      }
-      if(q.type==='visual'){
-        // 圖＋僅輸入分子；分母鎖定
-        html+=`<div class="row" style="align-items:center;gap:16px"><div>${drawPieSVG(q.d,q.n)}</div><div class="big">寫出分數 & 判斷</div></div>`;
-        html+=`<div class="input" style="margin-top:8px;gap:12px">
-          <label>分子(藍色幾片) <input id="N" type="number" min="0" max="${q.d}" aria-label="分子"></label>
-          <label>分母 <input id="D" type="number" value="${q.d}" disabled aria-label="分母(鎖定)"></label>
-          <button class="btn small" id="btnProper">真分數</button>
-          <button class="btn small" id="btnImproper">假分數</button>
-        </div>
-        <div class="row" style="gap:6px;margin-top:6px">
-          <button class="btn small" id="minus1">－1</button>
-          <button class="btn small" id="plus1">＋1</button>
-        </div>`
-      }
-      box.innerHTML=html;
-
-      // 綁定互動
-      if(q.type==='judge'){
-        document.getElementById('btnProper').onclick=()=>judgeAnswer('proper');
-        document.getElementById('btnImproper').onclick=()=>judgeAnswer('improper');
-      }
-      if(q.type==='imp2mix'){
-        document.getElementById('D').value=q.d;
-        const enter=(e)=>{if(e.key==='Enter') checkImp2Mix();}
-        ;['W','N','D'].forEach(id=>document.getElementById(id).addEventListener('keydown',enter));
-        const submit=document.createElement('button'); submit.className='btn primary'; submit.textContent='送出'; submit.onclick=checkImp2Mix; box.appendChild(submit);
-      }
-      if(q.type==='mix2imp'){
-        document.getElementById('D').value=q.d;
-        const enter=(e)=>{if(e.key==='Enter') checkMix2Imp();}
-        ;['N','D'].forEach(id=>document.getElementById(id).addEventListener('keydown',enter));
-        const submit=document.createElement('button'); submit.className='btn primary'; submit.textContent='送出'; submit.onclick=checkMix2Imp; box.appendChild(submit);
-      }
-      if(q.type==='visual'){
-        const enter=(e)=>{if(e.key==='Enter') judgeVisual();}
-        ;['N'].forEach(id=>document.getElementById(id).addEventListener('keydown',enter));
-        // stepper
-        document.getElementById('minus1').onclick=()=>{const n=document.getElementById('N'); n.value=Math.max(0,(+n.value||0)-1)};
-        document.getElementById('plus1').onclick=()=>{const n=document.getElementById('N'); n.value=Math.min(q.d,(+n.value||0)+1)};
-        document.getElementById('btnProper').onclick=()=>{document.getElementById('btnProper').dataset.flag='proper'};
-        document.getElementById('btnImproper').onclick=()=>{document.getElementById('btnProper').dataset.flag='improper'};
-        const submit=document.createElement('button'); submit.className='btn primary'; submit.style.marginTop='8px'; submit.textContent='送出'; submit.onclick=judgeVisual; box.appendChild(submit);
-      }
-
-      // 視覺化：同步在左側顯示（練習預設不顯示答案）
-      let n=q.n,d=q.d; if(q.type==='mix2imp'){n=q.whole*q.d+q.n;d=q.d}
-      renderInlineVizByFrac(n,d, state.view==='teach' || state.practiceHint===true);
-      // 顯示提示按鈕（僅練習模式）
-      const vizTitle=document.querySelector('#viz .viz-title');
-      if(state.view==='practice'){
-        const hintBtn=document.createElement('button');
-        hintBtn.className='btn small';
-        hintBtn.textContent='顯示提示';
-        hintBtn.onclick=()=>{state.practiceHint=true; renderInlineVizByFrac(n,d,true)};
-        vizTitle.appendChild(hintBtn);
-      }
-    }
-
-    function renderNext(){renderCurrent();document.getElementById('idx').textContent=state.idx+1;document.getElementById('bar').style.width=((state.idx)/state.count*100)+'%'}
-
-    // 題後回饋
-    function showFeedback(ok,msg){
-      const f=document.getElementById('feedback');
-      if(!f) return;
-      f.style.display='inline-block';
-      f.style.background=ok?'#dcfce7':'#fee2e2';
-      f.style.color=ok?'#166534':'#991b1b';
-      f.textContent=(ok?'✅ ':'❌ ')+msg;
-    }
-
-    function right(){state.score++;showFeedback(true,'答對了！');toast(true);nextQ()}
-    function wrong(text){showFeedback(false,text);toast(false, text);nextQ()}
-    function nextQ(){saveHistoryLine();state.idx++;if(state.idx>=state.count){document.getElementById('bar').style.width='100%';document.getElementById('idx').textContent=state.count;document.getElementById('score').textContent=state.score;document.getElementById('qbox').innerHTML=`<p class="big">太棒了！今天完成 ${state.count} 題 ✔︎</p><p>得分：<b>${state.score}</b>／${state.count}</p>`;renderHistory(true);return}document.getElementById('score').textContent=state.score;renderNext()}
-    function toast(ok,text){const t=document.createElement('div');t.className='pill';t.style.position='fixed';t.style.right='16px';t.style.bottom='16px';t.style.zIndex='9';t.style.background=ok?'#dcfce7':'#fee2e2';t.style.color=ok?'#166534':'#991b1b';t.innerHTML=ok?'✅ 答對了！':`❌ 再想想${text?('：'+text):''}`;document.body.appendChild(t);setTimeout(()=>t.remove(),1400)}
-
-    // 作答檢查
-    function judgeAnswer(chosen){const q=state.todays[state.idx];const isProper=q.n<q.d;const pick=(chosen==='proper');if((isProper&&pick)||(!isProper&&!pick))right();else wrong(isProper?'應為「真分數」':'應為「假分數」')}
-    function checkImp2Mix(){const q=state.todays[state.idx];const W=+document.getElementById('W').value;const N=+document.getElementById('N').value;const D=+document.getElementById('D').value;const {whole,n}=toMixed(q.n,q.d);if(W===whole&&N===n&&D===q.d)right();else wrong(`正確：${whole} ${q.n%q.d}/${q.d}`)}
-    function checkMix2Imp(){const q=state.todays[state.idx];const N=+document.getElementById('N').value;const D=+document.getElementById('D').value;const newN=q.whole*q.d+q.n;if(N===newN&&D===q.d)right();else wrong(`正確：${newN}/${q.d}`)}
-    function judgeVisual(){const q=state.todays[state.idx];const N=+document.getElementById('N').value;const D=q.d; // 分母鎖定
-      if(N===q.n){const flag=document.getElementById('btnProper').dataset.flag;const isProper=q.n<q.d;const ok=(flag===(isProper?'proper':'improper'));if(ok)right();else wrong(isProper?'屬「真分數」':'屬「假分數」')}else wrong(`圖是 ${q.n}/${q.d}`)}
-
-    // 歷史（顯示於 modal）
-    function saveHistoryLine(){const h=JSON.parse(localStorage.getItem(state.historyKey)||'[]');h.push({i:state.idx+1,score:state.score});localStorage.setItem(state.historyKey,JSON.stringify(h))}
-    function renderHistory(final=false){const hist=JSON.parse(localStorage.getItem(state.historyKey)||'[]');const box=document.getElementById('hist');if(!box) return; if(!hist.length){box.textContent='（尚無紀錄）';return}box.innerHTML=hist.map(r=>`第${r.i}題後 → 得分 ${r.score}`).join('<br>');if(final)box.innerHTML+='<br><b>✔︎ 今日完成</b>'}
-
-    // 切換題型（僅替換當前題目）
-    function uniqueReplaceAtIdx(type){let tries=0;const LIMIT=50;while(tries++<LIMIT){const {q,key}=genQByType(type);if(!state.used.has(key)){state.used.add(key);state.todays[state.idx]=q;return}}state.todays[state.idx]=genQByType(type).q}
-    function switchMode(type){state.modeSel=type;uniqueReplaceAtIdx(type);renderModebar();renderCurrent()}
-
-    function renderTeach(){
-      const box=document.getElementById('qbox');
-      // 簡易教學：用 3/5 舉例，展示切塊、標註分子分母與真假
-      const n=3,d=5; const {whole,n:rem}=toMixed(13,5);
-      box.innerHTML=`
+    // 渲染暖身教學頁
+    function renderWarmup() {
+      const main = document.getElementById('main');
+      main.innerHTML = '';
+      const div = document.createElement('div');
+      div.innerHTML = `
         <h2>暖身教學</h2>
         <p>先看懂一個例子，再開始練習！</p>
-        <div class="row" style="align-items:center;gap:16px">
-          <div>${drawPieSVG(d,n)}</div>
-          <div>
-            <div class="pill">切成 <b>${d}</b> 等份（分母）／塗上 <b>${n}</b> 份（分子）</div>
-            <div style="margin-top:8px">寫成分數：${makeFracSpan(n,d)}，因為 <b>${n} < ${d}</b>，所以是 <span class="tag good">真分數</span></div>
-          </div>
+        <div style="border:1px solid var(--gray-300); border-radius:0.5rem; padding:1rem; margin-bottom:1rem;">
+          <h3>什麼是真分數？</h3>
+          <p>把一個圓平均分成 <b>5 等份</b>（分母），塗上 <b>3 份</b>（分子），寫成分數：<b>3/5</b>。因為 <b>3 &lt; 5</b>，所以是 <span style="color:var(--success); font-weight:bold;">真分數</span>。</p>
+          <div class="bar-container"></div>
         </div>
-        <hr>
-        <div class="row" style="align-items:center;gap:16px">
-          <div>${drawPieSVG(5,13%5)}</div>
-          <div>
-            <div>假分數例子：${makeFracSpan(13,5)}，可以換成帶分數 <b>${whole}</b> 又 ${makeFracSpan(rem,5)}</div>
-            <div class="muted">方法：分子÷分母＝商（整數）、餘數（新分子），分母不變。</div>
-          </div>
+        <div style="border:1px solid var(--gray-300); border-radius:0.5rem; padding:1rem;">
+          <h3>什麼是假分數？什麼是帶分數？</h3>
+          <p>假分數的分子比分母大。例如分數 <b>13/5</b> 可以換成帶分數 <b>2 又 3/5</b>，因為 <b>13 ÷ 5 = 2</b> 餘 <b>3</b>。</p>
         </div>
-        <div class="row" style="margin-top:16px"><button class="btn primary" id="startPractice">開始練習</button></div>
+        <button class="btn" id="startPractice">開始練習！</button>
       `;
-      document.getElementById('startPractice').onclick=()=>{state.view='practice'; state.practiceHint=false; renderCurrent();}
+      main.appendChild(div);
+      // 填充示意圖
+      const barCtn = div.querySelector('.bar-container');
+      // 繪製 5 等分長條，塗 3 格
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      for (let i=0; i<5; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        if (i<3) cell.classList.add('filled');
+        bar.appendChild(cell);
+      }
+      barCtn.appendChild(bar);
+      // Start button
+      div.querySelector('#startPractice').onclick = () => {
+        state.mode = 'basic';
+        initPractice('basic');
+      };
     }
-
-    // 初始化與按鈕
-    window.addEventListener('DOMContentLoaded',()=>{
-      document.getElementById('rerollBtn').onclick=()=>{ uniqueReplaceAtIdx(state.modeSel); renderCurrent(); };
-      document.getElementById('skipBtn').onclick=()=>nextQ();
-      // modal 開關
-      const modal=document.getElementById('logModal');
-      document.getElementById('openLog').onclick=()=>{ renderHistory(); modal.style.display='flex'; modal.setAttribute('aria-hidden','false'); };
-      document.getElementById('closeLog').onclick=()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); };
-      modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }});
-      // 啟動今日
-      state.seed=todaySeed(); state.rng=seededRand(state.seed); state.idx=0; state.score=0; state.used.clear(); state.todays=[]; state.modeSel='judge'; state.historyKey='frac-history-'+state.seed;
-      document.getElementById('seedInfo').textContent='seed '+state.seed; document.getElementById('total').textContent=state.count; document.getElementById('score').textContent=0; document.getElementById('idx').textContent=0; document.getElementById('bar').style.width='0%';
-      renderModebar(); renderViewbar(); buildDayQuestions(); renderNext(); renderHistory();
-    });
-
-    // 內建測試（不可改動，除非錯誤）
-    (function tests(){
-      console.log('%c[Tests] start','color:#4f46e5');
-      console.assert(JSON.stringify(toMixed(13,5))==='{"whole":2,"n":3,"d":5}','13/5 -> 2 3/5');
-      const tmp=(q)=>{const {whole,n,d}=toMixed(q.n,q.d);return `${whole} ${n}/${d}`};
-      console.assert(tmp({n:9,d:4})==='2 1/4','9/4 -> 2 1/4');
-      console.assert((6<8)===true,'6/8 proper');
-      console.assert((9<8)===false,'9/8 improper');
-      // 追加
-      console.assert(JSON.stringify(toMixed(8,3))==='{"whole":2,"n":2,"d":3}','8/3 -> 2 2/3');
-      console.assert(JSON.stringify(toMixed(7,7))==='{"whole":1,"n":0,"d":7}','7/7 -> 1 0/7');
-      // 新增：視覺題邏輯（分母鎖定）
-      (function(){const q={type:'visual',n:2,d:5};const expectD=5;if(q.d!==expectD) throw new Error('visual denominator not locked');})();
-      // 新增：showFeedback 存在
-      console.assert(typeof showFeedback==='function','showFeedback should exist');
-      console.log('%c[Tests] ok','color:#16a34a');
-    })();
+    // 初始化練習
+    function initPractice(mode) {
+      // 更新導航
+      renderNav();
+      // 產生種子與嘗試次數
+      let attempt = loadAttempt() + 1;
+      saveAttempt(attempt);
+      state.attempt = attempt;
+      const seedStr = getTodayStr() + attempt;
+      let seedInt = 0;
+      for (let i=0; i<seedStr.length; i++) {
+        seedInt = (seedInt * 31 + seedStr.charCodeAt(i)) >>> 0;
+      }
+      state.seed = seedInt;
+      state.rng = mulberry32(seedInt);
+      state.idx = 0;
+      state.score = 0;
+      state.sessionDetails = [];
+      state.mode = mode;
+      // 產生題庫
+      const count = 10;
+      if (mode === 'basic') {
+        state.questions = generateBasicQuestions(count);
+      } else {
+        state.questions = generateAdvancedQuestions(count);
+      }
+      // 設定當前記錄鍵
+      state.logKey = 'frac-log-' + getTodayStr();
+      renderCurrentQuestion();
+    }
+    // 渲染當前題目
+    function renderCurrentQuestion() {
+      const main = document.getElementById('main');
+      main.innerHTML = '';
+      const idx = state.idx;
+      if (idx >= state.questions.length) {
+        // 結束
+        finishPractice();
+        return;
+      }
+      const q = state.questions[idx];
+      const container = document.createElement('div');
+      container.className = 'question';
+      // 標題
+      const title = document.createElement('h3');
+      let titleTxt = '';
+      if (q.type === 'judge') {
+        titleTxt = `判斷： ${q.n}/${q.d}`;
+      } else if (q.type === 'imp2mix') {
+        titleTxt = `將 ${q.n}/${q.d} 轉換為帶分數`;
+      } else if (q.type === 'mix2imp') {
+        titleTxt = `將 ${q.whole} ${q.nPart}/${q.d} 轉換成假分數`;
+      } else if (q.type === 'visualMulti') {
+        titleTxt = `看圖寫出分數 (分母 ${q.d})`;
+      } else if (q.type === 'compare') {
+        titleTxt = `比較大小： ${q.n1}/${q.d1}  ?  ${q.n2}/${q.d2}`;
+      } else if (q.type === 'numberLine') {
+        titleTxt = `數線填空：請填入紅點所代表的分數`;
+      }
+      title.textContent = titleTxt;
+      container.appendChild(title);
+      // 輔助說明
+      let hint = '';
+      if (q.type === 'judge') {
+        hint = '題目說明：請從下面選擇「真分數」或「假分數」。';
+      } else if (q.type === 'imp2mix') {
+        hint = '題目說明：請輸入「整數、分子、分母」，再按送出。';
+      } else if (q.type === 'mix2imp') {
+        hint = '題目說明：請輸入新的「分子、分母」，再按送出。';
+      } else if (q.type === 'visualMulti') {
+        hint = '題目說明：請看圖輸入藍色格子總數作為「分子」，分母已固定為 ' + q.d + '，再按送出。';
+      } else if (q.type === 'compare') {
+        hint = '題目說明：請選擇「>」「<」或「=」。';
+      } else if (q.type === 'numberLine') {
+        hint = '題目說明：請輸入紅點對應的「分子」，分母為 ' + q.d + '；如果分子大於等於分母代表超過 1。';
+      }
+      const hintP = document.createElement('p');
+      hintP.style.background = 'var(--gray-200)';
+      hintP.style.padding = '0.5rem';
+      hintP.style.borderRadius = '0.375rem';
+      hintP.style.marginBottom = '0.5rem';
+      hintP.textContent = hint;
+      container.appendChild(hintP);
+      // 題目內容（輸入區）
+      const inputRow = document.createElement('div');
+      inputRow.className = 'input-row';
+      // feedback
+      const feedback = document.createElement('div');
+      feedback.className = 'feedback';
+      container.appendChild(inputRow);
+      if (q.type === 'judge') {
+        // two buttons
+        const btnProper = document.createElement('button');
+        btnProper.textContent = '真分數';
+        btnProper.className = 'option';
+        const btnImproper = document.createElement('button');
+        btnImproper.textContent = '假分數';
+        btnImproper.className = 'option';
+        inputRow.appendChild(btnProper);
+        inputRow.appendChild(btnImproper);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        submitBtn.onclick = () => {
+          // determine selection
+          let choice = null;
+          if (btnProper.classList.contains('selected')) choice = 'proper';
+          else if (btnImproper.classList.contains('selected')) choice = 'improper';
+          if (!choice) {
+            feedback.textContent = '請先選擇答案';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const correct = q.correct;
+          const isCorrect = (correct === 'proper' && choice === 'proper') || (correct === 'improper' && choice === 'improper');
+          if (correct === 'equal') {
+            // 分子=分母屬整數，但在這裡算假分數
+            if (choice === 'improper') {
+              state.score++;
+              feedback.textContent = '答對了！';
+              feedback.className = 'feedback success';
+            } else {
+              feedback.textContent = '答案是「假分數」（或整數）。';
+              feedback.className = 'feedback error';
+            }
+            state.sessionDetails.push({type:'judge', question: `${q.n}/${q.d}`, user: choice, correct: '假分數', ok: choice==='improper'});
+          } else {
+            if (isCorrect) {
+              state.score++;
+              feedback.textContent = '答對了！';
+              feedback.className = 'feedback success';
+            } else {
+              feedback.textContent = `答錯了，正確是「${correct === 'proper' ? '真分數' : '假分數'}」。`;
+              feedback.className = 'feedback error';
+            }
+            state.sessionDetails.push({type:'judge', question: `${q.n}/${q.d}`, user: choice==='proper'?'真分數':'假分數', correct: correct==='proper'?'真分數':'假分數', ok: isCorrect});
+          }
+          // 下一題
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+        btnProper.onclick = () => {
+          btnProper.classList.add('selected');
+          btnImproper.classList.remove('selected');
+        };
+        btnImproper.onclick = () => {
+          btnImproper.classList.add('selected');
+          btnProper.classList.remove('selected');
+        };
+      } else if (q.type === 'imp2mix') {
+        // input for whole, numerator, denominator
+        const wInput = document.createElement('input');
+        wInput.type = 'number';
+        wInput.placeholder = '整數';
+        wInput.min = 0;
+        wInput.style.width = '4rem';
+        const nInput = document.createElement('input');
+        nInput.type = 'number';
+        nInput.placeholder = '分子';
+        nInput.min = 0;
+        const dInput = document.createElement('input');
+        dInput.type = 'number';
+        dInput.placeholder = '分母';
+        dInput.min = 1;
+        inputRow.appendChild(wInput);
+        inputRow.appendChild(document.createTextNode(' '));
+        inputRow.appendChild(nInput);
+        inputRow.appendChild(document.createTextNode('/'));
+        inputRow.appendChild(dInput);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        submitBtn.onclick = () => {
+          const W = parseInt(wInput.value, 10);
+          const N = parseInt(nInput.value, 10);
+          const D = parseInt(dInput.value, 10);
+          if (isNaN(W) || isNaN(N) || isNaN(D) || D <= 0) {
+            feedback.textContent = '請輸入完整數值';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const ok = (W === q.whole && N === q.rem && D === q.d);
+          if (ok) {
+            state.score++;
+            feedback.textContent = '答對了！';
+            feedback.className = 'feedback success';
+          } else {
+            feedback.textContent = `答錯了，正確為 ${q.whole} ${q.rem}/${q.d}`;
+            feedback.className = 'feedback error';
+          }
+          state.sessionDetails.push({type:'imp2mix', question:`${q.n}/${q.d}`, user: `${W} ${N}/${D}`, correct: `${q.whole} ${q.rem}/${q.d}`, ok: ok});
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+      } else if (q.type === 'mix2imp') {
+        // input for new numerator, denominator
+        const nInput = document.createElement('input');
+        nInput.type = 'number';
+        nInput.placeholder = '分子';
+        nInput.min = 0;
+        const dInput = document.createElement('input');
+        dInput.type = 'number';
+        dInput.placeholder = '分母';
+        dInput.min = 1;
+        inputRow.appendChild(nInput);
+        inputRow.appendChild(document.createTextNode('/'));
+        inputRow.appendChild(dInput);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        submitBtn.onclick = () => {
+          const N = parseInt(nInput.value, 10);
+          const D = parseInt(dInput.value, 10);
+          if (isNaN(N) || isNaN(D) || D <= 0) {
+            feedback.textContent = '請輸入完整數值';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const ok = (N === q.n && D === q.d);
+          if (ok) {
+            state.score++;
+            feedback.textContent = '答對了！';
+            feedback.className = 'feedback success';
+          } else {
+            feedback.textContent = `答錯了，正確為 ${q.n}/${q.d}`;
+            feedback.className = 'feedback error';
+          }
+          state.sessionDetails.push({type:'mix2imp', question:`${q.whole} ${q.nPart}/${q.d}`, user: `${N}/${D}`, correct: `${q.n}/${q.d}`, ok: ok});
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+      } else if (q.type === 'visualMulti') {
+        // 顯示長條
+        const barsWrap = document.createElement('div');
+        barsWrap.className = 'bar-container';
+        // compute number of full bars and remainder
+        let whole = Math.floor(q.n / q.d);
+        let rem = q.n % q.d;
+        for (let i=0; i<whole; i++) {
+          const bar = document.createElement('div');
+          bar.className = 'bar';
+          for (let j=0; j<q.d; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell filled';
+            bar.appendChild(cell);
+          }
+          barsWrap.appendChild(bar);
+        }
+        // remainder bar
+        if (rem > 0) {
+          const bar = document.createElement('div');
+          bar.className = 'bar';
+          for (let j=0; j<q.d; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            if (j < rem) cell.classList.add('filled');
+            bar.appendChild(cell);
+          }
+          barsWrap.appendChild(bar);
+        }
+        container.appendChild(barsWrap);
+        // 输入分子
+        const nInput = document.createElement('input');
+        nInput.type = 'number';
+        nInput.placeholder = '分子';
+        nInput.min = 0;
+        const dInput = document.createElement('input');
+        dInput.type = 'number';
+        dInput.value = q.d;
+        dInput.readOnly = true;
+        dInput.style.background = '#f0f0f0';
+        inputRow.appendChild(nInput);
+        inputRow.appendChild(document.createTextNode('/'));
+        inputRow.appendChild(dInput);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        submitBtn.onclick = () => {
+          const N = parseInt(nInput.value, 10);
+          if (isNaN(N)) {
+            feedback.textContent = '請輸入分子';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const ok = (N === q.n);
+          if (ok) {
+            state.score++;
+            feedback.textContent = '答對了！';
+            feedback.className = 'feedback success';
+          } else {
+            feedback.textContent = `答錯了，正確為 ${q.n}/${q.d}`;
+            feedback.className = 'feedback error';
+          }
+          state.sessionDetails.push({type:'visualMulti', question:`${q.n}/${q.d}`, user: `${N}/${q.d}`, correct: `${q.n}/${q.d}`, ok: ok});
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+      } else if (q.type === 'compare') {
+        // show three option buttons: > < =
+        const btnGT = document.createElement('button');
+        btnGT.textContent = '>';
+        btnGT.className = 'option';
+        const btnEQ = document.createElement('button');
+        btnEQ.textContent = '=';
+        btnEQ.className = 'option';
+        const btnLT = document.createElement('button');
+        btnLT.textContent = '<';
+        btnLT.className = 'option';
+        inputRow.appendChild(btnGT);
+        inputRow.appendChild(btnEQ);
+        inputRow.appendChild(btnLT);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        let choice = null;
+        function select(btn, value) {
+          btnGT.classList.remove('selected');
+          btnEQ.classList.remove('selected');
+          btnLT.classList.remove('selected');
+          btn.classList.add('selected');
+          choice = value;
+        }
+        btnGT.onclick = () => select(btnGT, '>');
+        btnEQ.onclick = () => select(btnEQ, '=');
+        btnLT.onclick = () => select(btnLT, '<');
+        submitBtn.onclick = () => {
+          if (!choice) {
+            feedback.textContent = '請先選擇關係';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const ok = (choice === q.correct);
+          if (ok) {
+            state.score++;
+            feedback.textContent = '答對了！';
+            feedback.className = 'feedback success';
+          } else {
+            feedback.textContent = `答錯了，正確為 ${q.correct}`;
+            feedback.className = 'feedback error';
+          }
+          state.sessionDetails.push({type:'compare', question:`${q.n1}/${q.d1} ? ${q.n2}/${q.d2}`, user: choice, correct: q.correct, ok: ok});
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+      } else if (q.type === 'numberLine') {
+        // 畫出數線
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('numberline');
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '60');
+        const width = 600; // intrinsic width for drawing; will scale to 100%
+        const height = 60;
+        const d = q.d;
+        const units = q.units;
+        const totalTicks = d * units + 1;
+        const startX = 20;
+        const endX = width - 20;
+        const lineY = 40;
+        const step = (endX - startX) / (totalTicks - 1);
+        // Draw baseline
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', startX);
+        line.setAttribute('y1', lineY);
+        line.setAttribute('x2', endX);
+        line.setAttribute('y2', lineY);
+        line.setAttribute('stroke', '#555');
+        line.setAttribute('stroke-width', '2');
+        svg.appendChild(line);
+        // Draw ticks and labels
+        for (let i=0; i<totalTicks; i++) {
+          const x = startX + i * step;
+          const tick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          tick.setAttribute('x1', x);
+          tick.setAttribute('y1', lineY);
+          tick.setAttribute('x2', x);
+          tick.setAttribute('y2', lineY - 8);
+          tick.setAttribute('stroke', '#555');
+          tick.setAttribute('stroke-width', '2');
+          svg.appendChild(tick);
+          // labels at integers
+          if (i % d === 0) {
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', x);
+            text.setAttribute('y', lineY + 15);
+            text.setAttribute('font-size', '12');
+            text.setAttribute('text-anchor', 'middle');
+            text.textContent = i / d;
+            svg.appendChild(text);
+          }
+        }
+        // draw point indicator for q.idx
+        const px = startX + q.idx * step;
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', px);
+        circle.setAttribute('cy', lineY - 12);
+        circle.setAttribute('r', '6');
+        circle.setAttribute('fill', varColor('primary'));
+        svg.appendChild(circle);
+        container.appendChild(svg);
+        // Input for numerator
+        const nInput = document.createElement('input');
+        nInput.type = 'number';
+        nInput.placeholder = '分子';
+        nInput.min = 0;
+        const dInput = document.createElement('input');
+        dInput.type = 'number';
+        dInput.value = q.d;
+        dInput.readOnly = true;
+        dInput.style.background = '#f0f0f0';
+        inputRow.appendChild(nInput);
+        inputRow.appendChild(document.createTextNode('/'));
+        inputRow.appendChild(dInput);
+        const submitBtn = document.createElement('button');
+        submitBtn.textContent = '送出';
+        submitBtn.className = 'btn';
+        container.appendChild(submitBtn);
+        container.appendChild(feedback);
+        submitBtn.onclick = () => {
+          const N = parseInt(nInput.value, 10);
+          if (isNaN(N)) {
+            feedback.textContent = '請輸入分子';
+            feedback.className = 'feedback error';
+            return;
+          }
+          const ok = (N === q.correct.n);
+          if (ok) {
+            state.score++;
+            feedback.textContent = '答對了！';
+            feedback.className = 'feedback success';
+          } else {
+            feedback.textContent = `答錯了，正確為 ${q.correct.n}/${q.correct.d}`;
+            feedback.className = 'feedback error';
+          }
+          state.sessionDetails.push({type:'numberLine', question:`${q.correct.n}/${q.correct.d}`, user: `${N}/${q.correct.d}`, correct: `${q.correct.n}/${q.correct.d}`, ok: ok});
+          setTimeout(() => { state.idx++; renderCurrentQuestion(); }, 900);
+        };
+      }
+      main.appendChild(container);
+    }
+    // 結束時顯示總結
+    function finishPractice() {
+      const main = document.getElementById('main');
+      main.innerHTML = '';
+      const summary = document.createElement('div');
+      summary.innerHTML = `<h2>今天完成！</h2><p>你答對了 ${state.score} 題，共 ${state.questions.length} 題。</p>`;
+      // save record
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+      saveSessionRecord({ time: timeStr, score: state.score, total: state.questions.length, details: state.sessionDetails });
+      // buttons to restart or warmup
+      const btnAgain = document.createElement('button');
+      btnAgain.className = 'btn';
+      btnAgain.textContent = '再練一次';
+      btnAgain.onclick = () => {
+        // start new practice same mode
+        state.mode = state.mode; // unchanged
+        initPractice(state.mode);
+      };
+      const btnBack = document.createElement('button');
+      btnBack.className = 'btn';
+      btnBack.style.marginLeft = '0.5rem';
+      btnBack.textContent = '回暖身教學';
+      btnBack.onclick = () => {
+        state.mode = 'warmup';
+        renderNav();
+        renderWarmup();
+      };
+      summary.appendChild(btnAgain);
+      summary.appendChild(btnBack);
+      main.appendChild(summary);
+    }
+    // 顏色變換助手
+    function varColor(name) {
+      const styles = getComputedStyle(document.documentElement);
+      return styles.getPropertyValue(`--${name}`) || '#000';
+    }
+    // 顯示紀錄面板
+    function showRecordPanel() {
+      const records = getSessionRecords();
+      const content = document.getElementById('recordContent');
+      if (!records.length) {
+        content.innerHTML = '<p>尚無紀錄。</p>';
+      } else {
+        let html = '<table><tr><th>時間</th><th>得分</th><th>總題數</th></tr>';
+        records.slice().reverse().forEach(rec => {
+          html += `<tr><td>${rec.time}</td><td>${rec.score}</td><td>${rec.total}</td></tr>`;
+        });
+        html += '</table>';
+        content.innerHTML = html;
+      }
+      document.getElementById('recordModal').classList.add('active');
+    }
+    // 初始渲染
+    renderNav();
+    renderWarmup();
+    // 紀錄按鈕
+    document.getElementById('recordBtn').onclick = showRecordPanel;
+    document.getElementById('closeRecord').onclick = () => {
+      document.getElementById('recordModal').classList.remove('active');
+    };
+  })();
   </script>
 </body>
 </html>
