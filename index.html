@@ -196,7 +196,9 @@
           let relation=n<d?'<':(n===d?'=':'>');
           qs.push({type:'appliedShaded', d,n, relation});
         }else if(type==='appliedInterval'){
-          let a=Math.floor(state.rng()*3)+1, b=a+1;
+          // ★ 改為 1–5 隨機，再取 [a, a+1] 區間
+          let a=Math.floor(state.rng()*5)+1; // 1..5
+          let b=a+1;
           const options=[]; let correctCount=0; const totalOptions=6;
           for(let j=0;j<totalOptions;j++){
             let denom=Math.floor(state.rng()*8)+3; // 3-10
@@ -321,6 +323,10 @@
       else if(q.type==='visualMulti'){ title.textContent = `看圖寫出分數 (分母 ${q.d})`; }
       else if(q.type==='compare'){ title.innerHTML = `比較大小： ${fracHTML(q.n1,q.d1,'xl')} ？ ${fracHTML(q.n2,q.d2,'xl')}`; }
       else if(q.type==='numberLine'){ title.textContent = '數線填空：請填入紅點所代表的分數'; }
+      /* ★補上應用題型的題幹 */
+      else if(q.type==='appliedPack'){ title.textContent = '應用：把圖示寫成帶分數'; }
+      else if(q.type==='appliedShaded'){ title.textContent = '應用：依陰影分數與 1 的大小關係作答'; }
+      else if(q.type==='appliedInterval'){ title.textContent = `應用：選出介於 ${q.a} 和 ${q.b} 之間的分數（可複選）`; }
       container.appendChild(title);
 
       let hint='';
@@ -330,6 +336,10 @@
       else if(q.type==='visualMulti'){ hint='題目說明：請看圖輸入藍色格子總數作為「分子」，分母已固定為 '+q.d+'，再按送出。'; }
       else if(q.type==='compare'){ hint='題目說明：請選擇「>」「<」或「=」。'; }
       else if(q.type==='numberLine'){ hint='題目說明：請輸入紅點對應的「分子」，分母為 '+q.d+'；如果分子大於等於分母代表超過 1。'; }
+      /* ★補上應用題型的提示 */
+      else if(q.type==='appliedPack'){ hint='題目說明：請輸入帶分數的「整數、分子」（分母已固定），再按送出。'; }
+      else if(q.type==='appliedShaded'){ hint='題目說明：請輸入分子（分母已固定）並選擇與 1 的關係符號。'; }
+      else if(q.type==='appliedInterval'){ hint='題目說明：請勾選所有介於左、右端點之間的分數（可複選）。'; }
       const hintP=document.createElement('p'); hintP.style.background='var(--gray-200)'; hintP.style.padding='.5rem'; hintP.style.borderRadius='.375rem'; hintP.style.marginBottom='.5rem'; hintP.textContent=hint;
       container.appendChild(hintP);
 
@@ -338,7 +348,7 @@
 
       container.appendChild(inputRow);
 
-      /* 各題型互動 */
+      /* 各題型互動（原樣保留） */
       if(q.type==='judge'){
         const btnProper=document.createElement('button'); btnProper.textContent='真分數'; btnProper.className='option';
         const btnImproper=document.createElement('button'); btnImproper.textContent='假分數'; btnImproper.className='option';
